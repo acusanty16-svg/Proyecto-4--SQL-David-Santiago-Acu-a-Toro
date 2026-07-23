@@ -105,3 +105,60 @@ tienen nombre y apellidos, entonces es necesario hacer un like, donde nos dice
 que un si o si empieza con irina pero luego puede tener cualquier apellido*/
 
 /**/
+
+--Ejercicio 6.
+/*Enunciado: Mostrar las ciudades con más de un aeropuerto.*/
+SELECT city, COUNT(*) AS num_aeropuertos
+FROM airports_data
+GROUP BY city
+HAVING COUNT(*) > 1;
+/*Vale desde este punto he tenido que recurrir a cosas que he visto en la 
+fp porque sino creo que era imposible poder dar con lo que querías dentro
+del enunciado
+Tengo que decir que para este ejercicio he tenido que, primeramente, seleccionar
+la ciudad pero tambien necesitaba saber cuantos aeropuertos tenia cada ciudad
+para ello recurri al count y agrupe todas las ciudades para despues filtrarlas
+y decir cuantas ciudades tenian mas de un aeropuerto*/
+
+/**/
+
+--Ejercicio 7.
+/*Enunciado: Mostrar el número de vuelos por modelo de avión. */
+SELECT r.airplane_code, COUNT(*) AS num_vuelos
+FROM flights as f
+JOIN routes as r on f.route_no = r.route_no
+GROUP BY r.airplane_code;
+/*Para este ejercicio si necesite ayuda externa hehehe, porque estaba 
+agrupando mal elementos, estaba agrupando los elementos sin hacer un join
+y no me permitia agruparlos correctamente, por eso fue necesario hacer un join
+que uniera los vuelos y despues con esa informacion solamente se necesitaria
+del codigo de cada vuelo sacado de airplane_code*/
+
+/**/
+
+--Ejercicio 8.
+/*Enunciado: Reservas con más de un billete (varios pasajeros). */
+SELECT b.book_ref, COUNT(*) AS num_billetes
+FROM bookings as b
+JOIN tickets as t on b.book_ref = t.book_ref
+GROUP BY b.book_ref
+HAVING COUNT (*) > 1;
+/*Este ejercicio es muy parecido al anterior, pero aqui he tenido que unir
+tanto el join como el group by para poder obtener la informacion requerida,
+ya que el numero de billes asociados a las reservas no se encontraban 
+directamente en una tabla sino que habia que enlazar una con otra, y al 
+final hacemos una condicion de quien de esos grupos tiene mas de un billete*/
+
+/**/
+
+--Ejercicio 9.
+/*Enunciado: Vuelos con retraso de salida superior a una hora. */
+select * from flights
+WHERE actual_departure - scheduled_departure > INTERVAL '1 hour'
+AND actual_departure IS NOT NULL
+/*Para este ultimo si que necesite de ayuda de nuestro amigo, porque estaba
+intentando hacer una consulta equivocada con muchos joins hahaha y al final
+ninguno me devolvia la solucion esperada, entonces necesite de ayuda y pude
+ver que postgres no esta restrictivo como mariaDB porque este paso de 
+simplemente restar y pasarlo por un intervalo jamas lo habia visto y creo
+que no es posible de hacer en mariaDB o por lo menos en el que tengo hehe*/
